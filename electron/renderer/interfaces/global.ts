@@ -18,9 +18,10 @@
  */
 
 import {DesktopCapturer} from 'electron';
-import {Supportedi18nStrings} from '../../dist/interfaces/index';
+import {Supportedi18nStrings} from '../../dist/interfaces/';
 import * as environment from '../../dist/js/environment';
-import {amplify, wire, z} from '../interfaces/';
+
+import {amplify as _amplify, wire as _wire, z as _z} from '../interfaces/';
 
 declare global {
   interface Window {
@@ -30,7 +31,7 @@ declare global {
     sendBadgeCount: (count: number) => void;
     sendDeleteAccount: (accountId: string, sessionId?: string) => void;
     sendLogoutAccount: (accountId: string) => void;
-    wire: wire;
+    wire: _wire;
   }
 
   namespace NodeJS {
@@ -43,6 +44,6 @@ declare global {
     }
   }
 
-  const amplify: amplify;
-  const z: z;
+  const amplify: _amplify;
+  const z: _z;
 }

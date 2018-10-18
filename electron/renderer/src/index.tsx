@@ -17,7 +17,7 @@
  *
  */
 
-import throttle = require('lodash/throttle');
+const throttle = require('lodash/throttle');
 import * as React from 'react';
 import {render} from 'react-dom';
 import {Provider} from 'react-redux';

@@ -19,8 +19,8 @@
 
 import * as crypto from 'crypto';
 import {BrowserWindow, app, session} from 'electron';
-import * as minimist from 'minimist';
-import * as path from 'path';
+import minimist from 'minimist';
+import path from 'path';
 import {URL} from 'url';
 
 import {BACKEND_ORIGINS, USER_AGENT} from '../settings/config';

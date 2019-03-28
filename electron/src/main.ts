@@ -24,7 +24,7 @@ import WindowStateKeeper = require('electron-window-state');
 import fileUrl = require('file-url');
 import * as fs from 'fs-extra';
 import * as logdown from 'logdown';
-import * as minimist from 'minimist';
+import minimist from 'minimist';
 import * as path from 'path';
 import {URL} from 'url';
 import {OnHeadersReceivedCallback, OnHeadersReceivedDetails} from './interfaces/';

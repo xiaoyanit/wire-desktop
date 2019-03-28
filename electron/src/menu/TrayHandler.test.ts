@@ -11,12 +11,12 @@ const TrayMock = {
 
 describe('initTray', () => {
   it('creates native images for all tray icons and sets a default tray icon', () => {
-    // const tray = new TrayHandler();
-    // tray.initTray(TrayMock);
-    // assert.strictEqual(Object.keys(tray.icons).length, 3);
-    // assert.strictEqual(tray.icons.badge.constructor.name, 'NativeImage');
-    // assert.strictEqual(tray.icons.tray.constructor.name, 'NativeImage');
-    assert.strictEqual('A', 'A');
-    sinon.assert.match('A', 'A');
+    const tray = new TrayHandler();
+    tray.initTray(TrayMock);
+    assert.strictEqual(Object.keys(tray.icons).length, 3);
+    assert.strictEqual(tray.icons.badge.constructor.name, 'NativeImage');
+    assert.strictEqual(tray.icons.tray.constructor.name, 'NativeImage');
+    assert.strictEqual(tray.icons.trayWithBadge.constructor.name, 'NativeImage');
+    sinon.assert.match(tray.trayIcon, sinon.match.defined);
   });
 });

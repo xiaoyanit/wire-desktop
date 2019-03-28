@@ -73,8 +73,7 @@
     "coverage:instrument": "istanbul instrument dist --no-compact --complete-copy --output instrumented-code",
     "coverage:report": "remap-istanbul --input instrumented-code/coverage.json --output coverage -t html",
     "postinstall": "electron-rebuild -f -w @wireapp/node-addressbook",
-    "test": "electron-mocha",
-    "benny": "electron-mocha --require ./babel-register.js src/**/*.test.ts"
+    "test": "electron-mocha --require ./babel-register.js src/**/*.test.ts"
   },
   "updateWinUrl": "https://wire-app.wire.com/win/internal/"
 }

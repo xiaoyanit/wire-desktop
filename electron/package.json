@@ -44,7 +44,8 @@
     "@types/sinon": "7.0.11",
     "@types/uuid": "3.4.4",
     "electron-mocha": "8.0.1",
-    "electron-rebuild": "1.8.4"
+    "electron-rebuild": "1.8.4",
+    "spectron": "5.0.0"
   },
   "license": "GPL-3.0",
   "main": "dist/main.js",
@@ -53,7 +54,7 @@
     "@wireapp/node-addressbook": "3.0.2"
   },
   "private": true,
-  "productName": "WireInternal",
+  "productName": "Wire",
   "repository": {
     "type": "git",
     "url": "https://github.com/wireapp/wire-desktop.git"
@@ -62,5 +63,6 @@
     "coverage": "yarn test",
     "postinstall": "electron-rebuild -f -w @wireapp/node-addressbook",
     "test": "electron-mocha --require ./babel-register.js \"src/**/*.test?(.main).ts\""
-  }
+  },
+  "version": "3.9.0-c5048dd3"
 }

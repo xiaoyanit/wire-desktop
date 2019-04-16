@@ -1117,10 +1117,10 @@
     "@webassemblyjs/wast-parser" "1.8.5"
     "@xtuc/long" "4.2.2"
 
-"@wireapp/build-tools@0.1.7":
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/@wireapp/build-tools/-/build-tools-0.1.7.tgz#4291a2252d2177d152e32ca7616ac981e3c3c068"
-  integrity sha512-3CE/rDTd9tWcPlMZoi6CCFz+u6YhKHY3NxhoWOJs5we/9Q9NTfPEXv8nS+QYMMX42zg3T9zmmzs25yORUfY6gg==
+"@wireapp/build-tools@0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@wireapp/build-tools/-/build-tools-0.1.8.tgz#6e17029160294b8b9e32ec6a061c0f556b460461"
+  integrity sha512-B/LqQesWMwjTSrarRfCKYtN3FCLEX3+n5zUEZKxT3D/z/qHu0BrK9V1vlyxRUNkJEmHC4cKcPIs1IIQ+TI9R1A==
   dependencies:
     commander "2.20.0"
     dotenv "7.0.0"
@@ -1130,10 +1130,10 @@
     fs-extra "7.0.1"
     logdown "3.2.8"
 
-"@wireapp/copy-config@0.5.4":
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/@wireapp/copy-config/-/copy-config-0.5.4.tgz#55ededb67cd1794fbef07d21f21434328b4fd143"
-  integrity sha512-73aXKMUuzjBYQ1Osfe/MsgHXhn7CGAg3HJ9yNsJ9pPcLsZv0WY4iPdo1RGp2h4D9EqBHc8Yhtej5ZWBpea18yQ==
+"@wireapp/copy-config@0.5.5":
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/@wireapp/copy-config/-/copy-config-0.5.5.tgz#fed0250eb9eafef9019baff96af3b5974e737216"
+  integrity sha512-m7o00tuc3SiGIk/K8MU/g36CuDsXwGO4Tid3U1q+7GP5U1Ysmo6jSOVXVBUh4/5zSdO/VUcA+vFGxLpOmFotgQ==
   dependencies:
     axios "0.18.0"
     copy "0.3.2"
@@ -1156,6 +1156,11 @@
     globby "9.2.0"
     jszip "3.2.1"
     logdown "3.2.8"
+
+"@wireapp/prettier-config@0.1.0":
+  version "0.1.0"
+  resolved "https://registry.npmjs.org/@wireapp/prettier-config/-/prettier-config-0.1.0.tgz#9013de56087eb865b7fd3559d6d3a81558573719"
+  integrity sha512-/NnQFYE+Hbz46Cfz3NhiOT9JxfaKFON4lHI+qzg19Zb2d8B0pxd/I6HZRSRH6ofV29IP+OT+IynvUFQOO2WUpg==
 
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
@@ -8529,9 +8534,9 @@ widest-line@^2.0.0:
   dependencies:
     string-width "^2.1.1"
 
-"wire-web-config-internal@https://github.com/wireapp/wire-web-config-default#v0.17.19":
-  version "0.17.19"
-  resolved "https://github.com/wireapp/wire-web-config-default#8a8ae47fdb59e3a67918de43d31ef5004ee13581"
+"wire-web-config-internal@https://github.com/wireapp/wire-web-config-default#v0.17.21":
+  version "0.17.21"
+  resolved "https://github.com/wireapp/wire-web-config-default#1a5fc05cb19aa258839c3e55a85363f6ba71e2e4"
   dependencies:
     adm-zip "0.4.13"
     sort-json "2.0.0"

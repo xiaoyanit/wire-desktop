@@ -2,7 +2,7 @@
   "author": "Wire Swiss <wireapp@wire.com>",
   "dependencies": {
     "@wireapp/certificate-check": "0.1.4",
-    "@wireapp/commons": "1.6.3",
+    "@wireapp/commons": "1.6.4",
     "ansi-regex": "4.1.0",
     "auto-launch": "5.0.5",
     "axios": "0.18.0",
@@ -20,7 +20,7 @@
     "raygun": "0.10.1",
     "react": "16.8.6",
     "react-dom": "16.8.6",
-    "react-redux": "6.0.1",
+    "react-redux": "7.0.2",
     "redux": "4.0.1",
     "redux-logger": "3.0.6",
     "redux-thunk": "2.3.0",

@@ -21,12 +21,14 @@ import * as assert from 'assert';
 import * as path from 'path';
 import {Application} from 'spectron';
 
+const appBase = path.join(__dirname, '../../../');
+const electron = require.resolve('electron', {paths: [appBase]});
+
 describe('contextMenu', () => {
   it('can right click', async () => {
-    console.log('path', path.join(__dirname, '../../'));
     const app = new Application({
-      args: [path.join(__dirname, '../../../')],
-      path: path.join(__dirname, '../../../../node_modules/electron/dist/electron'),
+      args: [appBase],
+      path: electron as any,
     });
 
     try {
@@ -36,11 +38,12 @@ describe('contextMenu', () => {
       const isVisible = app.browserWindow.isVisible();
       assert.equal(isVisible, true);
 
-      const title = app.client.getTitle();
+      const title = app.browserWindow.getTitle();
       assert.equal(title, 'My App');
 
       await app.stop();
     } catch (error) {
+      console.error(error);
       assert.fail(error);
     }
   });

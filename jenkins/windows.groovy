@@ -16,7 +16,7 @@ node('node160') {
   stage('Probe signtool') {
     try {
       timeout(activity: true, time: 1) {
-        bat returnStatus: true, script: '"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x86\\signtool.exe" sign /t http://timestamp.digicert.com /a jenkins\\example.exe'
+        bat returnStatus: true, script: '"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x86\\signtool.exe" sign /t http://timestamp.digicert.com /a C:\\Users\\jenkins\\Downloads\\Git-2.21.0-64-bit.exe'
       }
     } catch(e) {
       currentBuild.result = 'FAILED'

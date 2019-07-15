@@ -13,6 +13,18 @@ node('node160') {
     jenkinsbot_secret = env.JENKINSBOT_SECRET
   }
 
+  stage('Probe signtool') {
+    try {
+      timeout(activity: true, time: 1) {
+        bat returnStatus: true, script: '"C:\\Program Files (x86)\\Windows Kits\\10\\bin\\x86\\signtool.exe" sign /t http://timestamp.digicert.com /a ${WORKSPACE}\\jenkins\\example.exe'
+      }
+    } catch(e) {
+      currentBuild.result = 'FAILED'
+      wireSend secret: "${jenkinsbot_secret}", message: "🏞 **${JOB_NAME} ${version} signing failed**\nPlease enter signing key on the machine! See: ${JOB_URL}"
+      throw e
+    }
+  }
+
   stage('Checkout & Clean') {
     git branch: "${GIT_BRANCH}", url: 'https://github.com/wireapp/wire-desktop.git'
     bat returnStatus: true, script: 'rmdir /s /q "wrap"'

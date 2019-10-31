@@ -23,11 +23,10 @@ import * as fs from 'fs-extra';
 import * as path from 'path';
 
 import {getLogger} from '../logging/getLogger';
-
-const USER_DATA_DIR = app.getPath('userData');
-const LOG_DIR = path.join(USER_DATA_DIR, 'logs');
+import {config} from '../settings/config';
 
 const logger = getLogger(path.basename(__filename));
+const userDataDir = app.getPath('userData');
 
 const clearStorage = (session: Electron.Session): Promise<void> => {
   return new Promise(resolve =>
@@ -66,7 +65,7 @@ export async function deleteAccount(id: number, accountId: string, partitionId?:
       if (!ValidationUtil.isUUIDv4(partitionId)) {
         throw new Error('Partition is not an UUID');
       }
-      const partitionDir = path.join(USER_DATA_DIR, 'Partitions', partitionId);
+      const partitionDir = path.join(userDataDir, 'Partitions', partitionId);
       await fs.remove(partitionDir);
       logger.log(`Deleted partition "${partitionId}" for account "${accountId}".`);
     } catch (error) {
@@ -79,7 +78,7 @@ export async function deleteAccount(id: number, accountId: string, partitionId?:
     if (!ValidationUtil.isUUIDv4(accountId)) {
       throw new Error('Account is not an UUID');
     }
-    const sessionFolder = path.join(LOG_DIR, accountId);
+    const sessionFolder = path.join(config.logDir, accountId);
     await fs.remove(sessionFolder);
     logger.log(`Deleted logs folder for account "${accountId}".`);
   } catch (error) {

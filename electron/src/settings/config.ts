@@ -17,6 +17,11 @@
  *
  */
 
+import * as Electron from 'electron';
+import * as path from 'path';
+
+import * as EnvironmentUtil from '../runtime/EnvironmentUtil';
+
 interface WireJson {
   adminUrl: string;
   appBase: string;
@@ -48,12 +53,27 @@ const squirrelUpdateInterval = {
   INTERVAL: 24 * 60 * 60 * 1000,
 };
 
+const app = Electron.remote ? Electron.remote.app : Electron.app;
+
+const userDataPath = path.join(app.getPath('userData'));
+const logDir = path.join(userDataPath, 'logs');
+const appLogFile = path.join(logDir, 'electron.log');
+
+const appPath = path.join(app.getAppPath(), wireJson.electronDirectory);
+const iconFileName = `logo.${EnvironmentUtil.platform.IS_WINDOWS ? 'ico' : 'png'}`;
+const iconPath = path.join(appPath, 'img', iconFileName);
+
 export const config = {
   ...wireJson,
+  appLogFile,
+  appPath,
   backendOrigins: ['https://staging-nginz-https.zinfra.io', 'https://prod-nginz-https.wire.com'],
-  logFileName: 'console.log',
+  browserLogFileName: 'console.log',
+  iconPath,
+  logDir,
   maximumAccounts: parseInt(wireJson.maximumAccounts, 10),
   squirrelUpdateInterval,
   userAgent:
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
+  userDataPath,
 };

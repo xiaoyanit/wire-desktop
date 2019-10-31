@@ -17,14 +17,12 @@
  *
  */
 
-import {app} from 'electron';
 import * as fs from 'fs-extra';
 import * as globby from 'globby';
 import * as path from 'path';
+import {config} from '../settings/config';
 
-export const logDir = path.join(app.getPath('userData'), 'logs');
-
-export function getLogFiles(base: string = logDir, absolute: boolean = false): string[] {
+export function getLogFiles(base: string = config.logDir, absolute: boolean = false): string[] {
   return globby.sync('**/*.{log,old}', {cwd: base, followSymbolicLinks: false, onlyFiles: true, absolute});
 }
 
@@ -34,7 +32,7 @@ export async function gatherLogs(): Promise<string> {
   const relativeFilePaths = getLogFiles();
 
   for (const relativeFilePath of relativeFilePaths) {
-    const resolvedPath = path.join(logDir, relativeFilePath);
+    const resolvedPath = path.join(config.logDir, relativeFilePath);
     log += `\n\n+++++++ ${relativeFilePath} +++++++\n`;
     try {
       const fileContent = await fs.readFile(resolvedPath, 'utf-8');

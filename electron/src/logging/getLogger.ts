@@ -18,15 +18,12 @@
  */
 
 import {LogFactory, LoggerOptions} from '@wireapp/commons';
-import {app, remote} from 'electron';
+import {remote} from 'electron';
 import * as logdown from 'logdown';
-import * as path from 'path';
 
 import {config} from '../settings/config';
 
 const mainProcess = remote ? remote.process : process;
-const logDir = path.join((remote ? remote.app : app).getPath('userData'), 'logs');
-const logFile = path.join(logDir, 'electron.log');
 
 const isDevelopment = config.environment !== 'production';
 const forceLogging = mainProcess.argv.includes('--enable-logging');
@@ -36,7 +33,7 @@ export const ENABLE_LOGGING = isDevelopment || forceLogging;
 
 export function getLogger(name: string): logdown.Logger {
   const options: LoggerOptions = {
-    logFilePath: logFile,
+    logFilePath: config.appLogFile,
     namespace: LOGGER_NAMESPACE,
     separator: '/',
   };

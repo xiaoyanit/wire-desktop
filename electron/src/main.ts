@@ -56,13 +56,10 @@ import {ProxyPromptWindow} from './window/ProxyPromptWindow';
 import {WindowManager} from './window/WindowManager';
 import {WindowUtil} from './window/WindowUtil';
 
-const APP_PATH = path.join(app.getAppPath(), config.electronDirectory);
-const INDEX_HTML = path.join(APP_PATH, 'renderer/index.html');
-const LOG_DIR = path.join(app.getPath('userData'), 'logs');
-const LOG_FILE = path.join(LOG_DIR, 'electron.log');
-const PRELOAD_JS = path.join(APP_PATH, 'dist/renderer/preload-app.js');
-const PRELOAD_RENDERER_JS = path.join(APP_PATH, 'dist/renderer/preload-webview.js');
-const WRAPPER_CSS = path.join(APP_PATH, 'css/wrapper.css');
+const INDEX_HTML = path.join(config.appPath, 'renderer/index.html');
+const PRELOAD_JS = path.join(config.appPath, 'dist/renderer/preload-app.js');
+const PRELOAD_RENDERER_JS = path.join(config.appPath, 'dist/renderer/preload-webview.js');
+const WRAPPER_CSS = path.join(config.appPath, 'css/wrapper.css');
 const WINDOW_SIZE = {
   DEFAULT_HEIGHT: 768,
   DEFAULT_WIDTH: 1024,
@@ -97,8 +94,6 @@ if (argv['proxy-server-auth']) {
   }
 }
 
-const iconFileName = `logo.${EnvironmentUtil.platform.IS_WINDOWS ? 'ico' : 'png'}`;
-const iconPath = path.join(APP_PATH, 'img', iconFileName);
 let tray: TrayHandler;
 
 let isFullScreen = false;
@@ -183,7 +178,7 @@ const showMainWindow = async (mainWindowState: WindowStateKeeper.State) => {
     autoHideMenuBar: !showMenuBar,
     backgroundColor: '#f7f8fa',
     height: mainWindowState.height,
-    icon: iconPath,
+    icon: config.iconPath,
     minHeight: WINDOW_SIZE.MIN_HEIGHT,
     minWidth: WINDOW_SIZE.MIN_WIDTH,
     show: false,
@@ -397,7 +392,7 @@ const renameFileExtensions = (files: string[], oldExtension: string, newExtensio
 const renameWebViewLogFiles = (): void => {
   // Rename "console.log" to "console.old" (for every log directory of every account)
   try {
-    const logFiles = getLogFiles(LOG_DIR, true);
+    const logFiles = getLogFiles(config.logDir, true);
     renameFileExtensions(logFiles, '.log', '.old');
   } catch (error) {
     logger.log(`Failed to read log directory with error: ${error.message}`);
@@ -444,7 +439,7 @@ class ElectronWrapperInit {
   logger: logdown.Logger;
 
   constructor() {
-    this.logger = LogFactory.getLogger('ElectronWrapperInit', {logFilePath: LOG_FILE});
+    this.logger = LogFactory.getLogger('ElectronWrapperInit', {logFilePath: config.appLogFile});
   }
 
   async run(): Promise<void> {
@@ -533,7 +528,7 @@ class ElectronWrapperInit {
             contents.on('console-message', async (event, level, message) => {
               const webViewId = getWebViewId(contents);
               if (webViewId) {
-                const logFilePath = path.join(LOG_DIR, webViewId, config.logFileName);
+                const logFilePath = path.join(config.logDir, webViewId, config.browserLogFileName);
                 try {
                   await LogFactory.writeMessage(message, logFilePath);
                 } catch (error) {
@@ -596,6 +591,6 @@ if (lifecycle.isFirstInstance) {
   bindIpcEvents();
   handleAppEvents();
   renameWebViewLogFiles();
-  fs.ensureFileSync(LOG_FILE);
+  fs.ensureFileSync(config.appLogFile);
   new ElectronWrapperInit().run().catch(error => logger.error(error));
 }

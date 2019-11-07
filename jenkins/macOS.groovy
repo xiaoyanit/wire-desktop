@@ -37,7 +37,12 @@ node('master') {
         sh 'npm -v'
         sh 'npm install -g yarn'
         sh 'yarn'
-        sh 'yarn build:macos'
+        withCredentials([
+          string(credentialsId: "${params.NOTARIZE_APPLE_ID}", variable: 'MACOS_NOTARIZE_APPLE_ID'),
+          string(credentialsId: "${params.NOTARIZE_APPLE_PASSWORD}", variable: 'MACOS_NOTARIZE_APPLE_PASSWORD')
+        ]) {
+          sh 'yarn build:macos'
+        }
       }
     } catch(e) {
       currentBuild.result = 'FAILED'

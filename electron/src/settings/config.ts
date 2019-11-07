@@ -17,7 +17,9 @@
  *
  */
 
-interface WireJson {
+export interface WireJson {
+  aboutReleasesUrl: string;
+  aboutUpdatesUrl: string;
   adminUrl: string;
   appBase: string;
   buildNumber: string;

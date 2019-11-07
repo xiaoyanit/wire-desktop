@@ -419,7 +419,6 @@ export const createMenu = (isFullScreen: boolean): Menu => {
 
   if (Array.isArray(windowTemplate.submenu)) {
     const muteAccelerator = 'CmdOrCtrl+Alt+M';
-    logger.info(`Registering mute shortcut "${muteAccelerator}" ...`);
 
     const muteShortcut: MenuItemConstructorOptions = {
       accelerator: muteAccelerator,

@@ -21,7 +21,7 @@ import {BrowserWindow, IpcMessageEvent, app, ipcMain, session, shell} from 'elec
 import fileUrl = require('file-url');
 import * as path from 'path';
 
-import {i18nLanguageIdentifier} from '../interfaces';
+import {TranslationLabel} from '../interfaces';
 import {EVENT_TYPE} from '../lib/eventType';
 import * as locale from '../locale/locale';
 import * as EnvironmentUtil from '../runtime/EnvironmentUtil';
@@ -97,13 +97,18 @@ const showWindow = async () => {
     });
 
     // Locales
-    ipcMain.on(EVENT_TYPE.ABOUT.LOCALE_VALUES, (event: IpcMessageEvent, labels: i18nLanguageIdentifier[]) => {
+    ipcMain.on(EVENT_TYPE.ABOUT.LOCALE_VALUES, (event: IpcMessageEvent, labels: TranslationLabel[]) => {
       if (aboutWindow) {
         const isExpected = event.sender.id === aboutWindow.webContents.id;
         if (isExpected) {
-          const resultLabels: Record<string, string> = {};
-          labels.forEach(label => (resultLabels[label] = locale.getText(label)));
-          event.sender.send(EVENT_TYPE.ABOUT.LOCALE_RENDER, resultLabels);
+          labels.forEach(label => {
+            if (label.type === 'string') {
+              label.translation = locale.getText(label.identifier);
+            } else if (label.type === 'href') {
+              label.translation = (config[label.identifier] as string) || '';
+            }
+          });
+          event.sender.send(EVENT_TYPE.ABOUT.LOCALE_RENDER, labels);
         }
       }
     });

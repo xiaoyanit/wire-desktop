@@ -17,4 +17,19 @@
  *
  */
 
+import {WireJson} from '../settings/config';
+import {i18nLanguageIdentifier} from './locale';
+
 export type Schemata = Record<string, any>;
+
+export type TranslationLabel =
+  | {
+      identifier: keyof WireJson;
+      translation?: string;
+      type: 'href';
+    }
+  | {
+      identifier: i18nLanguageIdentifier;
+      translation?: string;
+      type: 'string';
+    };

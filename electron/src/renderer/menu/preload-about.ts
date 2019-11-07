@@ -19,13 +19,21 @@
 
 import {IpcMessageEvent, ipcRenderer} from 'electron';
 
+import {TranslationLabel} from '../../interfaces';
+import {i18nLanguageIdentifier} from '../../interfaces/locale';
 import {EVENT_TYPE} from '../../lib/eventType';
+import {WireJson} from '../../settings/config';
 
-ipcRenderer.once(EVENT_TYPE.ABOUT.LOCALE_RENDER, (event: IpcMessageEvent, labels: string[]) => {
-  for (const label in labels) {
+ipcRenderer.once(EVENT_TYPE.ABOUT.LOCALE_RENDER, (event: IpcMessageEvent, labels: Record<string, 'text' | 'href'>) => {
+  for (const entry in Object.entries(labels)) {
+    const [label, type] = entry;
     const labelElement = document.querySelector(`[data-string="${label}"]`);
     if (labelElement) {
-      labelElement.innerHTML = labels[label];
+      if (type === 'text') {
+        (labelElement as HTMLDivElement).innerHTML = labels[label];
+      } else if (type === 'href') {
+        (labelElement as HTMLAnchorElement).href = labels[label];
+      }
     }
   }
 });
@@ -64,13 +72,22 @@ export function loadedAboutScreen(event: Event, details: Details): void {
   }
 
   // Get locales
-  const labels = [];
+  const labels: TranslationLabel[] = [];
   const dataStrings = document.querySelectorAll<HTMLDivElement>('[data-string]');
 
   for (const index in dataStrings) {
     const label = dataStrings[index];
     if (label.dataset) {
-      labels.push(label.dataset.string);
+      labels.push({identifier: label.dataset.string as i18nLanguageIdentifier, type: 'string'});
+    }
+  }
+
+  const dataLinks = document.querySelectorAll<HTMLAnchorElement>('[data-href]');
+
+  for (const index in dataLinks) {
+    const label = dataLinks[index];
+    if (label.dataset) {
+      labels.push({identifier: label.dataset.href as keyof WireJson, type: 'href'});
     }
   }
 

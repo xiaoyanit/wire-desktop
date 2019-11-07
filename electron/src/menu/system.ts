@@ -19,12 +19,10 @@
 
 import autoLaunch = require('auto-launch');
 import {Menu, MenuItemConstructorOptions, dialog, ipcMain, shell} from 'electron';
-import * as path from 'path';
 
 import {EVENT_TYPE} from '../lib/eventType';
 import {WebViewFocus} from '../lib/webViewFocus';
 import * as locale from '../locale/locale';
-import {getLogger} from '../logging/getLogger';
 import * as lifecycle from '../runtime/lifecycle';
 import {config} from '../settings/config';
 import {settings} from '../settings/ConfigurationPersistence';
@@ -35,8 +33,6 @@ import {Supportedi18nLanguage} from '../interfaces/';
 import * as EnvironmentUtil from '../runtime/EnvironmentUtil';
 
 const launchCmd = process.env.APPIMAGE || process.execPath;
-
-const logger = getLogger(path.basename(__filename));
 
 const launcher = new autoLaunch({
   isHidden: true,
@@ -90,6 +86,12 @@ const conversationTemplate: MenuItemConstructorOptions = {
       accelerator: 'CmdOrCtrl+K',
       click: () => WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.UI.SYSTEM_MENU, EVENT_TYPE.CONVERSATION.PING),
       label: locale.getText('menuPing'),
+    },
+    {
+      accelerator: 'CmdOrCtrl+Alt+M',
+      click: () =>
+        WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.UI.SYSTEM_MENU, EVENT_TYPE.CONVERSATION.TOGGLE_MUTE),
+      label: 'Mute / Notifications...',
     },
     {
       click: () => WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.UI.SYSTEM_MENU, EVENT_TYPE.CONVERSATION.CALL),
@@ -417,32 +419,6 @@ export const createMenu = (isFullScreen: boolean): Menu => {
     }
   }
 
-  if (Array.isArray(windowTemplate.submenu)) {
-    const muteAccelerator = 'CmdOrCtrl+Alt+M';
-    logger.info(`Registering mute shortcut "${muteAccelerator}" ...`);
-
-    const muteShortcut: MenuItemConstructorOptions = {
-      accelerator: muteAccelerator,
-      click: () =>
-        WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.UI.SYSTEM_MENU, EVENT_TYPE.CONVERSATION.TOGGLE_MUTE),
-      label: 'Toggle mute',
-      visible: false,
-    };
-
-    const switchShortcuts: MenuItemConstructorOptions[] = [...Array(config.maximumAccounts).keys()].map(index => {
-      const switchAccelerator = `CmdOrCtrl+${index + 1}`;
-      logger.info(`Registering account switching shortcut "${switchAccelerator}" ...`);
-      return {
-        accelerator: switchAccelerator,
-        click: () => WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.ACTION.SWITCH_ACCOUNT, index),
-        label: `Switch to account ${index + 1}`,
-        visible: false,
-      };
-    });
-
-    windowTemplate.submenu.push(muteShortcut, ...switchShortcuts);
-  }
-
   if (EnvironmentUtil.platform.IS_LINUX) {
     menuTemplate.unshift(linuxTemplate);
     if (Array.isArray(editTemplate.submenu)) {
@@ -454,6 +430,19 @@ export const createMenu = (isFullScreen: boolean): Menu => {
     }
     if (Array.isArray(windowTemplate.submenu)) {
       windowTemplate.submenu.push(separatorTemplate, toggleMenuTemplate, separatorTemplate, toggleFullScreenTemplate);
+
+      const switchEntries: MenuItemConstructorOptions[] = [...Array(config.maximumAccounts).keys()].map(index => {
+        const switchAccelerator = `CmdOrCtrl+${index + 1}`;
+        return {
+          accelerator: switchAccelerator,
+          click: () => WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.ACTION.SWITCH_ACCOUNT, index),
+          label: `Switch to account ${index + 1}`,
+        };
+      });
+
+      if (switchEntries.length > 1) {
+        windowTemplate.submenu.push(separatorTemplate, ...switchEntries);
+      }
     }
     toggleFullScreenTemplate.checked = isFullScreen;
   }

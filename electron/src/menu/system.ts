@@ -91,7 +91,7 @@ const conversationTemplate: MenuItemConstructorOptions = {
       accelerator: 'CmdOrCtrl+Alt+M',
       click: () =>
         WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.UI.SYSTEM_MENU, EVENT_TYPE.CONVERSATION.TOGGLE_MUTE),
-      label: 'Mute / Notifications...',
+      label: `${locale.getText('menuMute')} / ${locale.getText('menuNotificationSettings')}`,
     },
     {
       click: () => WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.UI.SYSTEM_MENU, EVENT_TYPE.CONVERSATION.CALL),
@@ -436,7 +436,7 @@ export const createMenu = (isFullScreen: boolean): Menu => {
         return {
           accelerator: switchAccelerator,
           click: () => WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.ACTION.SWITCH_ACCOUNT, index),
-          label: `Switch to account ${index + 1}`,
+          label: `${locale.getText('menuSwitchAccount')} ${index + 1}`,
         };
       });
 

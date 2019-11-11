@@ -436,7 +436,7 @@ export const createMenu = (isFullScreen: boolean): Menu => {
         return {
           accelerator: switchAccelerator,
           click: () => WindowManager.sendActionToPrimaryWindow(EVENT_TYPE.ACTION.SWITCH_ACCOUNT, index),
-          label: `${locale.getText('menuSwitchAccount')} ${index + 1}`,
+          label: `${locale.getText('menuSwitchAccount', {accountIndex: `${index + 1}`})}`,
         };
       });
 

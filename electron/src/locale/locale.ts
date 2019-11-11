@@ -121,22 +121,25 @@ const parseLocale = (locale: string): Supportedi18nLanguage => {
   return languageKeys.find(languageKey => languageKey === locale) || languageKeys[0];
 };
 
-const customReplacements: Record<string, string> = {
+const generalReplacements: Record<string, string> = {
   brandName: config.name,
 };
 
-export const getText = (stringIdentifier: i18nLanguageIdentifier): string => {
+export const getText = (
+  stringIdentifier: i18nLanguageIdentifier,
+  replacements: Record<string, string> = generalReplacements,
+): string => {
   const strings = getCurrent();
-  let str = LANGUAGES[strings][stringIdentifier] || LANGUAGES.en[stringIdentifier];
+  let translatedString = LANGUAGES[strings][stringIdentifier] || LANGUAGES.en[stringIdentifier] || 'undefined';
 
-  for (const replacement of Object.keys(customReplacements)) {
+  for (const replacement of Object.keys(replacements)) {
     const regex = new RegExp(`{${replacement}}`, 'g');
-    if (str.match(regex)) {
-      str = str.replace(regex, customReplacements[replacement]);
+    if (translatedString.match(regex)) {
+      translatedString = translatedString.replace(regex, replacements[replacement]);
     }
   }
 
-  return str;
+  return translatedString;
 };
 
 export const setLocale = (locale: string): void => {

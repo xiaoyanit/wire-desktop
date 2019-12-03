@@ -53,6 +53,7 @@ export const config = {
   backendOrigins: ['https://staging-nginz-https.zinfra.io', 'https://prod-nginz-https.wire.com'],
   logFileName: 'console.log',
   maximumAccounts: parseInt(wireJson.maximumAccounts, 10),
+  spellcheckSuggestions: 4,
   squirrelUpdateInterval,
   userAgent:
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',

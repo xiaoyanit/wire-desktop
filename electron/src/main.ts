@@ -54,6 +54,7 @@ import {Raygun} from './logging/initRaygun';
 import {getLogFiles} from './logging/loggerUtils';
 import {menuItem as developerMenu} from './menu/developer';
 import * as systemMenu from './menu/system';
+import * as contextMenu from './menu/context';
 import {TrayHandler} from './menu/TrayHandler';
 import * as EnvironmentUtil from './runtime/EnvironmentUtil';
 import * as lifecycle from './runtime/lifecycle';
@@ -246,6 +247,11 @@ const showMainWindow = async (mainWindowState: WindowStateKeeper.State) => {
     // Prevent any kind of navigation inside the main window
     event.preventDefault();
   });
+
+  main.webContents.on('context-menu', (event, params) => {
+    console.log('webContents context-menu', {params})
+    contextMenu.handleContextMenu(event, params)
+  })
 
   // Handle the new window event in the main Browser Window
   main.webContents.on('new-window', async (event, _url) => {
@@ -526,6 +532,7 @@ class ElectronWrapperInit {
             webPreferences.preload = PRELOAD_RENDERER_JS;
             webPreferences.webSecurity = true;
             webPreferences.enableBlinkFeatures = '';
+            webPreferences.spellcheck = true;
           });
           break;
         }

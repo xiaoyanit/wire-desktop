@@ -217,6 +217,6 @@ window.addEventListener('DOMContentLoaded', () => {
     subscribeToWebappEvents();
     reportWebappVersion();
     // include context menu
-    import('./menu/context').catch(error => logger.error(error));
+    // impor../menu/contextext').catch(error => logger.error(error));
   });
 });

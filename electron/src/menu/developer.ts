@@ -71,41 +71,29 @@ const devToolsTemplate: MenuItemConstructorOptions = {
   submenu: [
     {
       accelerator: 'Alt+CmdOrCtrl+I',
-      click: () => {
-        const primaryWindow = WindowManager.getPrimaryWindow();
-        if (primaryWindow) {
-          primaryWindow.webContents.toggleDevTools();
-        }
+      click: (menuItem, browserWindow) => {
+        browserWindow.webContents.toggleDevTools();
       },
       label: 'Sidebar',
     },
     {
-      click: async () => {
-        const primaryWindow = WindowManager.getPrimaryWindow();
-        if (primaryWindow) {
-          const command = 'document.getElementsByTagName("webview")[0].openDevTools({mode: "detach"})';
-          await primaryWindow.webContents.executeJavaScript(command);
-        }
+      click: async (menuItem, browserWindow) => {
+        const command = 'document.getElementsByTagName("webview")[0].openDevTools({mode: "detach"})';
+        await browserWindow.webContents.executeJavaScript(command);
       },
       label: 'First',
     },
     {
-      click: async () => {
-        const primaryWindow = WindowManager.getPrimaryWindow();
-        if (primaryWindow) {
-          const command = 'document.getElementsByTagName("webview")[1].openDevTools({mode: "detach"})';
-          await primaryWindow.webContents.executeJavaScript(command);
-        }
+      click: async (menuItem, browserWindow) => {
+        const command = 'document.getElementsByTagName("webview")[1].openDevTools({mode: "detach"})';
+        await browserWindow.webContents.executeJavaScript(command);
       },
       label: 'Second',
     },
     {
-      click: async () => {
-        const primaryWindow = WindowManager.getPrimaryWindow();
-        if (primaryWindow) {
-          const command = 'document.getElementsByTagName("webview")[2].openDevTools({mode: "detach"})';
-          await primaryWindow.webContents.executeJavaScript(command);
-        }
+      click: async (menuItem, browserWindow) => {
+        const command = 'document.getElementsByTagName("webview")[2].openDevTools({mode: "detach"})';
+        await browserWindow.webContents.executeJavaScript(command);
       },
       label: 'Third',
     },

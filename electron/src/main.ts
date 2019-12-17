@@ -594,6 +594,10 @@ handlePortableFlags();
 lifecycle.checkSingleInstance();
 lifecycle.checkForUpdate();
 
+if (EnvironmentUtil.platform.IS_LINUX) {
+  app.disableHardwareAcceleration()
+}
+
 // Stop further execution on update to prevent second tray icon
 if (lifecycle.isFirstInstance) {
   addLinuxWorkarounds();

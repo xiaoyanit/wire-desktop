@@ -18,13 +18,13 @@
  */
 
 import {
-  Menu,
-  Event as ElectronEvent,
-  MenuItemConstructorOptions,
   clipboard,
-  ipcRenderer,
-  remote,
   ContextMenuParams,
+  Event as ElectronEvent,
+  ipcRenderer,
+  Menu,
+  MenuItemConstructorOptions,
+  remote,
 } from 'electron';
 
 import {EVENT_TYPE} from '../lib/eventType';

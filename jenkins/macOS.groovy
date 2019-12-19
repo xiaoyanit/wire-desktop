@@ -40,6 +40,7 @@ node('master') {
         if (production) {
           sh 'yarn build:macos'
           def privateAPIResult = sh script: 'bin/macos-check_private_apis.sh "wrap/build/Wire-mas-x64/Wire.app"', returnStdout: true
+          echo "privateAPIResult: ${privateAPIResult}"
           if (privateAPIResult.contains('Warning')) {
             wireSend secret: "${jenkinsbot_secret}", message: "🍏 **${JOB_NAME} ${version}**\n${privateAPIResult.trim()}"
           }
@@ -88,5 +89,5 @@ node('master') {
     }
   }
 
-  wireSend secret: "${jenkinsbot_secret}", message: "🍏 **New build of ${JOB_NAME} ${version}**\nDownload from [Jenkins](${BUILD_URL})"
+  // wireSend secret: "${jenkinsbot_secret}", message: "🍏 **New build of ${JOB_NAME} ${version}**\nDownload from [Jenkins](${BUILD_URL})"
 }

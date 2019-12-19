@@ -19,17 +19,17 @@
 
 import {LogFactory, ValidationUtil} from '@wireapp/commons';
 import {
+  app,
   BrowserWindow,
   BrowserWindowConstructorOptions,
   Event as ElectronEvent,
   Filter,
   HeadersReceivedResponse,
+  ipcMain,
   Menu,
   OnHeadersReceivedListenerDetails,
-  WebContents,
-  app,
-  ipcMain,
   shell,
+  WebContents,
 } from 'electron';
 import WindowStateKeeper = require('electron-window-state');
 import fileUrl = require('file-url');
@@ -52,9 +52,9 @@ import * as locale from './locale/locale';
 import {ENABLE_LOGGING, getLogger} from './logging/getLogger';
 import {Raygun} from './logging/initRaygun';
 import {getLogFiles} from './logging/loggerUtils';
+import * as contextMenu from './menu/context';
 import {menuItem as developerMenu} from './menu/developer';
 import * as systemMenu from './menu/system';
-import * as contextMenu from './menu/context';
 import {TrayHandler} from './menu/TrayHandler';
 import * as EnvironmentUtil from './runtime/EnvironmentUtil';
 import * as lifecycle from './runtime/lifecycle';
@@ -93,7 +93,7 @@ const BASE_URL = EnvironmentUtil.web.getWebappUrl(argv.env);
 const logger = getLogger(path.basename(__filename));
 
 if (argv.version) {
-  console.log(config.version);
+  console.info(config.version);
   process.exit();
 }
 
@@ -210,7 +210,9 @@ const showMainWindow = async (mainWindowState: WindowStateKeeper.State) => {
       webviewTag: true,
     },
     width: mainWindowState.width,
+    // eslint-disable-next-line
     x: mainWindowState.x,
+    // eslint-disable-next-line
     y: mainWindowState.y,
   };
 
@@ -249,9 +251,8 @@ const showMainWindow = async (mainWindowState: WindowStateKeeper.State) => {
   });
 
   main.webContents.on('context-menu', (event, params) => {
-    console.log('webContents context-menu', {params})
-    contextMenu.handleContextMenu(event, params)
-  })
+    contextMenu.handleContextMenu(event, params);
+  });
 
   // Handle the new window event in the main Browser Window
   main.webContents.on('new-window', async (event, _url) => {
@@ -498,7 +499,7 @@ class ElectronWrapperInit {
     };
 
     app.on('web-contents-created', async (webviewEvent: ElectronEvent, contents: WebContents) => {
-      if (authenticatedProxyInfo && authenticatedProxyInfo.origin && contents.session) {
+      if (authenticatedProxyInfo?.origin && contents.session) {
         const proxyURL = `${authenticatedProxyInfo.protocol}//${authenticatedProxyInfo.origin}`;
         logger.info(`Setting proxy to URL "${proxyURL}" ...`);
 

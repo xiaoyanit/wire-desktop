@@ -39,13 +39,19 @@ node('master') {
         sh 'yarn'
         if (production) {
           sh 'yarn build:macos'
-          sh 'bin/macos-check_private_apis.sh "wrap/build/Wire-mas-x64/Wire.app"'
+          def privateAPIResult = sh script: 'bin/macos-check_private_apis.sh "wrap/build/Wire-mas-x64/Wire.app"', returnStdout: true
+          if (privateAPIResult.contains('Warning')) {
+            wireSend secret: "${jenkinsbot_secret}", message: "🍏 **${JOB_NAME} ${version}**\n${privateAPIResult.trim()}"
+          }
         } else if (custom) {
           sh 'yarn build:macos'
         } else {
           // internal
           sh 'yarn build:macos:internal'
-          sh 'bin/macos-check_private_apis.sh "wrap/build/WireInternal-mas-x64/WireInternal.app"'
+          def privateAPIResult = sh script: 'bin/macos-check_private_apis.sh "wrap/build/Wire-mas-x64/WireInternal.app"', returnStdout: true
+          if (privateAPIResult.contains('Warning')) {
+            wireSend secret: "${jenkinsbot_secret}", message: "🍏 **${JOB_NAME} ${version}**\n${privateAPIResult.trim()}"
+          }
         }
       }
     } catch(e) {

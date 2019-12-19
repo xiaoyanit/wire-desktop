@@ -52,6 +52,7 @@ import * as locale from './locale/locale';
 import {ENABLE_LOGGING, getLogger} from './logging/getLogger';
 import {Raygun} from './logging/initRaygun';
 import {getLogFiles} from './logging/loggerUtils';
+import {attachContextMenu} from './menu/context';
 import {menuItem as developerMenu} from './menu/developer';
 import * as systemMenu from './menu/system';
 import {TrayHandler} from './menu/TrayHandler';
@@ -206,6 +207,7 @@ const showMainWindow = async (mainWindowState: WindowStateKeeper.State) => {
       enableBlinkFeatures: '',
       nodeIntegration: false,
       preload: PRELOAD_JS,
+      spellcheck: true,
       webviewTag: true,
     },
     width: mainWindowState.width,
@@ -528,6 +530,7 @@ class ElectronWrapperInit {
             webPreferences.preload = PRELOAD_RENDERER_JS;
             webPreferences.webSecurity = true;
             webPreferences.enableBlinkFeatures = '';
+            webPreferences.spellcheck = true;
           });
           break;
         }
@@ -535,6 +538,7 @@ class ElectronWrapperInit {
           // Open webview links outside of the app
           contents.on('new-window', openLinkInNewWindow);
           contents.on('will-navigate', willNavigateInWebview);
+          attachContextMenu(contents);
           if (ENABLE_LOGGING) {
             contents.on('console-message', async (event, level, message) => {
               const webViewId = getWebViewId(contents);

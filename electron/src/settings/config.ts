@@ -51,12 +51,18 @@ const squirrelUpdateInterval = {
   INTERVAL: 24 * HOUR_IN_MILLIS,
 };
 
+const SPELLCHECK = {
+  SUGGESTIONS: 4,
+  SUPPORTED_LANGUAGES: ['en'],
+};
+
 export const config = {
   ...wireJson,
   backendOrigins: ['https://staging-nginz-https.zinfra.io', 'https://prod-nginz-https.wire.com'],
   logFileName: 'console.log',
   maximumAccounts: parseInt(wireJson.maximumAccounts, 10),
   squirrelUpdateInterval,
+  SPELLCHECK,
   userAgent:
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
 };

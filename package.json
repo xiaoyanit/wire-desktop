@@ -6,6 +6,8 @@
     "auto-launch": "5.0.5",
     "axios": "0.19.0",
     "content-type": "1.0.4",
+    "electron-context-menu": "0.15.1",
+    "electron-dl": "2.0.0",
     "electron-window-state": "5.0.3",
     "file-url": "3.0.0",
     "fs-extra": "8.1.0",
@@ -129,7 +131,7 @@
   "name": "wire-desktop",
   "prettier": "@wireapp/prettier-config",
   "private": true,
-  "productName": "WireInternal",
+  "productName": "WireInternal2",
   "repository": {
     "type": "git",
     "url": "https://github.com/wireapp/wire-desktop.git"
